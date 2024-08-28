@@ -73,6 +73,7 @@ const types = ["Current Tasks", "Completed Tasks"];
 
 function TabGroup(taskList) {
   const [active, setActive] = useState(types[0]);
+
   return (
     <>
       <div>
@@ -87,14 +88,17 @@ function TabGroup(taskList) {
         ))}
       </div>
       <p />
-      <p>{active}:</p>
+      <p>
+        {active}: {taskList[0].name}
+      </p>
     </>
   );
 }
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const taskListArray = [];
+  let newObject = new newTask("treesh");
+  const taskListArray = [newObject];
 
   return (
     <>
