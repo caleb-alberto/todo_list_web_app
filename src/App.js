@@ -97,7 +97,7 @@ function TabGroup({ taskList }) {
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const taskListArray = [""];
+  const taskListArray = ["test"];
 
   return (
     <>
