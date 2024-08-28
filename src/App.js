@@ -71,7 +71,7 @@ const Tab = styled.button`
 `;
 const types = ["Current Tasks", "Completed Tasks"];
 
-function TabGroup(taskList) {
+function TabGroup({ taskList }) {
   const [active, setActive] = useState(types[0]);
 
   return (
@@ -97,8 +97,7 @@ function TabGroup(taskList) {
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
-  let newObject = new newTask("treesh");
-  const taskListArray = [newObject];
+  const taskListArray = [""];
 
   return (
     <>
