@@ -10,13 +10,13 @@ function Popup({ bool, setbool, taskList }) {
     let newObject = new newTask(userInput);
     taskList.push({ newObject });
   }
-  createTask();
 
   return (
     <Modal onClose={() => setbool(false)}>
       <h2>Create your Task:</h2>
       <p>make a name: </p>
       <input onChange={(e) => setUserInput(e.target.value)} />
+      <Button onClick={() => {createTask(); setbool(false)}} theme={"blue"} style={{ float: 'right' }}>create task</Button>
     </Modal>
   );
 }
@@ -73,7 +73,17 @@ const types = ["Current Tasks", "Completed Tasks"];
 
 function TabGroup({ taskList }) {
   const [active, setActive] = useState(types[0]);
-
+  function returnTaskList() {
+    const rows = [];
+    for (let x = 0; x < taskList.length; x++) {
+      rows.push(<div key={x}>{taskList[x].name}</div>);
+    }
+    return (
+      <>
+        {rows}
+      </>
+    );
+  }
   return (
     <>
       <div>
@@ -89,7 +99,7 @@ function TabGroup({ taskList }) {
       </div>
       <p />
       <p>
-        {active}: {taskList[0].name}
+        {active}: {returnTaskList()}
       </p>
     </>
   );
@@ -97,7 +107,7 @@ function TabGroup({ taskList }) {
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const taskListArray = ["test"];
+  const taskListArray = [];
 
   return (
     <>
