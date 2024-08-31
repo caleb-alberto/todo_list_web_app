@@ -3,20 +3,23 @@ import Modal from "./Modal";
 import styled from "styled-components";
 import newTask from "./Internal";
 
-function Popup({ bool, setbool, taskList }) {
+function Popup({ bool, setbool, taskListE }) {
   const [userInput, setUserInput] = useState("");
+  const [taskList, updateTaskList] = useState(taskListE);
   if (!bool) return null;
   function createTask() {
     let newObject = new newTask(userInput);
-    taskList.push({ newObject });
+    updateTaskList([...taskList, newObject]);
   }
+  taskListE = taskList
 
   return (
     <Modal onClose={() => setbool(false)}>
       <h2>Create your Task:</h2>
       <p>make a name: </p>
       <input onChange={(e) => setUserInput(e.target.value)} />
-      <Button onClick={() => {createTask(); setbool(false)}} theme={"blue"} style={{ float: 'right' }}>create task</Button>
+      <Button onClick={() => {createTask(); setbool(false)}} theme={"blue"} style={{ float: 'right' }}>
+      create task</Button>
     </Modal>
   );
 }
@@ -73,17 +76,7 @@ const types = ["Current Tasks", "Completed Tasks"];
 
 function TabGroup({ taskList }) {
   const [active, setActive] = useState(types[0]);
-  function returnTaskList() {
-    const rows = [];
-    for (let x = 0; x < taskList.length; x++) {
-      rows.push(<div key={x}>{taskList[x].name}</div>);
-    }
-    return (
-      <>
-        {rows}
-      </>
-    );
-  }
+
   return (
     <>
       <div>
@@ -98,9 +91,11 @@ function TabGroup({ taskList }) {
         ))}
       </div>
       <p />
-      <p>
-        {active}: {returnTaskList()}
-      </p>
+      <ul>
+        {taskList.map((it, index) => (
+          <li key={index}>{it.name}</li>
+        ))}
+      </ul>
     </>
   );
 }
@@ -118,7 +113,7 @@ export default function App() {
         <Popup
           bool={isModalOpen}
           setbool={setModalOpen}
-          taskList={taskListArray}
+          taskListE={taskListArray}
         />
       </div>
       <div>
