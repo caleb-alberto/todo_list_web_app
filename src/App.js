@@ -3,21 +3,22 @@ import Modal from "./Modal";
 import styled from "styled-components";
 import newTask from "./Internal";
 
-function Popup({ bool, setbool, taskListE }) {
-  const [userInput, setUserInput] = useState("");
-  const [taskList, updateTaskList] = useState(taskListE);
+function Popup({ bool, setbool, taskList, setTaskList }) {
+  const [nameInput, setNameInput] = useState("");
+  
   if (!bool) return null;
+
   function createTask() {
-    let newObject = new newTask(userInput);
-    updateTaskList([...taskList, newObject]);
+    let newObject = new newTask(nameInput);
+    setTaskList([...taskList, newObject]);
   }
-  taskListE = taskList
+  
 
   return (
     <Modal onClose={() => setbool(false)}>
       <h2>Create your Task:</h2>
       <p>make a name: </p>
-      <input onChange={(e) => setUserInput(e.target.value)} />
+      <input onChange={(e) => setNameInput(e.target.value)} />
       <Button onClick={() => {createTask(); setbool(false)}} theme={"blue"} style={{ float: 'right' }}>
       create task</Button>
     </Modal>
@@ -102,7 +103,7 @@ function TabGroup({ taskList }) {
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const taskListArray = [];
+  const [taskListArray, setTaskListArray] = useState([]); 
 
   return (
     <>
@@ -113,7 +114,8 @@ export default function App() {
         <Popup
           bool={isModalOpen}
           setbool={setModalOpen}
-          taskListE={taskListArray}
+          taskList={taskListArray}
+          setTaskList={setTaskListArray}
         />
       </div>
       <div>
