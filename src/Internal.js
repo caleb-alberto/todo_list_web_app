@@ -1,6 +1,9 @@
 class newTask {
-  constructor(name) {
+  constructor(name, desc, status) {
     this.name = name;
+    this.desc = desc;
+    this.status = status;
+
   }
 }
 

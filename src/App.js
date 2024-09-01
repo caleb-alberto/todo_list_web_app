@@ -5,11 +5,13 @@ import newTask from "./Internal";
 
 function Popup({ bool, setbool, taskList, setTaskList }) {
   const [nameInput, setNameInput] = useState("");
+  const [descInput, setDescInput] = useState("");
+
   
   if (!bool) return null;
 
   function createTask() {
-    let newObject = new newTask(nameInput);
+    let newObject = new newTask(nameInput, descInput, false);
     setTaskList([...taskList, newObject]);
   }
   
@@ -19,6 +21,8 @@ function Popup({ bool, setbool, taskList, setTaskList }) {
       <h2>Create your Task:</h2>
       <p>make a name: </p>
       <input onChange={(e) => setNameInput(e.target.value)} />
+      <p>make a description: </p>
+      <input onChange={(e) => setDescInput(e.target.value)} />
       <Button onClick={() => {createTask(); setbool(false)}} theme={"blue"} style={{ float: 'right' }}>
       create task</Button>
     </Modal>
@@ -94,7 +98,7 @@ function TabGroup({ taskList }) {
       <p />
       <ul>
         {taskList.map((it, index) => (
-          <li key={index}>{it.name}</li>
+          <li key={index}>{it.name} <br /> {it.desc}</li>
         ))}
       </ul>
     </>
