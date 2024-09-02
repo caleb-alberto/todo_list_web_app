@@ -23,7 +23,7 @@ function Popup({ bool, setbool, taskList, setTaskList }) {
       <input onChange={(e) => setNameInput(e.target.value)} />
       <p>make a description: </p>
       <input onChange={(e) => setDescInput(e.target.value)} />
-      <Button onClick={() => {createTask(); setbool(false)}} theme={"blue"} style={{ float: 'right' }}>
+      <Button onClick={() => {createTask(); setbool(false); setNameInput(""); setDescInput("")}} theme={"blue"} style={{ float: 'right' }}>
       create task</Button>
     </Modal>
   );
@@ -61,53 +61,33 @@ const Button = styled.button`
   }
 `;
 
-const Tab = styled.button`
-  padding: 10px 30px;
-  cursor: pointer;
-  opacity: 1;
-  background: white;
-  border: 0;
-  outline: 0;
-  border-bottom: 2px solid transparent;
-  transition: ease border-bottom 250ms;
-  ${({ active }) =>
-    active &&
-    `
-    border-bottom: 2px solid black;
-    opacity: 1;
-  `}
-`;
-const types = ["Current Tasks", "Completed Tasks"];
 
-function TabGroup({ taskList }) {
-  const [active, setActive] = useState(types[0]);
+function RenderTasks({ taskList }) {
+  const taskListIncomplete = [];
+  const taskListComplete = [];
 
+  taskList.forEach(task => {
+    if (task.status) {
+      taskListComplete.push(task);
+    } else {
+      taskListIncomplete.push(task);
+    }
+  });
+
+  
   return (
-    <>
-      <div>
-        {types.map((type) => (
-          <Tab
-            key={type}
-            active={active === type}
-            onClick={() => setActive(type)}
-          >
-            {type}
-          </Tab>
-        ))}
-      </div>
-      <p />
-      <ul>
-        {taskList.map((it, index) => (
-          <li key={index}>{it.name} <br /> {it.desc}</li>
-        ))}
-      </ul>
-    </>
-  );
-}
+  <ul>
+    {taskListIncomplete.map((it, index) => (
+      <li key={index}>{it.name} <br /> {it.desc}</li>
+    ))}
+  </ul>
+)}
+
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [taskListArray, setTaskListArray] = useState([]); 
+
 
   return (
     <>
@@ -123,7 +103,7 @@ export default function App() {
         />
       </div>
       <div>
-        <TabGroup taskList={taskListArray} />
+      <RenderTasks taskList={taskListArray}/>
       </div>
     </>
   );
