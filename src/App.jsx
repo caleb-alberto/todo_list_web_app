@@ -62,16 +62,6 @@ const Button = styled.button`
 `;
 
 
-function Checkbox({ taskComplete, setTaskComplete }) {
-
-  return (
-  <input
-			type="checkbox"
-			complete={taskComplete}
-			onChange={() => setTaskComplete(true)}
-		/>
-)}
-
 function RenderTasks({ taskList }) {
   const [taskListComplete, setComplete] = useState(false);
   const taskListIncomplete = []
@@ -87,7 +77,10 @@ function RenderTasks({ taskList }) {
   <>
     {taskListIncomplete.map((it, index) => (
       <li key={index}>{it.name} 
-      <Checkbox taskComplete={taskListComplete} setTaskComplete={setComplete} style={{ float: 'right' }} />
+      <input type="checkbox" onChange={() => {
+        setComplete(!taskListComplete);
+        it.status = true;
+      }}/>
       <br /> {it.desc}</li>
     ))}
   </>
@@ -97,8 +90,6 @@ function RenderTasks({ taskList }) {
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [taskListArray, setTaskListArray] = useState([]); 
-  
-
 
   return (
     <>
