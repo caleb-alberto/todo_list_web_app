@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Modal from "./Modal";
 import styled from "styled-components";
 import newTask from "./Internal";
@@ -62,31 +62,42 @@ const Button = styled.button`
 `;
 
 
-function RenderTasks({ taskList }) {
-  const taskListIncomplete = [];
-  const taskListComplete = [];
+function Checkbox({ taskComplete, setTaskComplete }) {
 
-  taskList.forEach(task => {
-    if (task.status) {
-      taskListComplete.push(task);
-    } else {
+  return (
+  <input
+			type="checkbox"
+			complete={taskComplete}
+			onChange={() => setTaskComplete(true)}
+		/>
+)}
+
+function RenderTasks({ taskList }) {
+  const [taskListComplete, setComplete] = useState(false);
+  const taskListIncomplete = []
+
+  taskList.forEach((task) => {
+    if (!task.status) {
       taskListIncomplete.push(task);
-    }
+    } 
   });
 
   
   return (
-  <ul>
+  <>
     {taskListIncomplete.map((it, index) => (
-      <li key={index}>{it.name} <br /> {it.desc}</li>
+      <li key={index}>{it.name} 
+      <Checkbox taskComplete={taskListComplete} setTaskComplete={setComplete} style={{ float: 'right' }} />
+      <br /> {it.desc}</li>
     ))}
-  </ul>
+  </>
 )}
 
 
 export default function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [taskListArray, setTaskListArray] = useState([]); 
+  
 
 
   return (
