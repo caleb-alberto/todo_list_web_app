@@ -61,7 +61,6 @@ const Button = styled.button`
   }
 `;
 
-
 function RenderTasks({ taskList }) {
   const [taskListComplete, setComplete] = useState(false);
   const taskListIncomplete = []
