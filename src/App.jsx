@@ -14,7 +14,6 @@ function Popup({ bool, setbool, taskList, setTaskList }) {
     let newObject = new newTask(nameInput, descInput, false);
     setTaskList([...taskList, newObject]);
   }
-  
 
   return (
     <Modal onClose={() => setbool(false)}>
