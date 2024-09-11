@@ -1,6 +1,5 @@
 import { renderToReadableStream } from 'react-dom/server';
 import App from './App';
-import { createRoot } from 'react-dom/client';
 
 async function handler(request) {
   const stream = await renderToReadableStream(<App />, {
@@ -11,5 +10,6 @@ async function handler(request) {
   });
 }
 
-const root = createRoot(document.getElementById('root'));
+const domNode = document.getElementById('root');
+const root = hydrateRoot(domNode, reactNode);
 root.render(<App />);

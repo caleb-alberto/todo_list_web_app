@@ -1,6 +1,5 @@
 {
   "name": "my-app",
-  "type": "module",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -41,5 +40,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/register": "^7.24.6"
   }
 }
