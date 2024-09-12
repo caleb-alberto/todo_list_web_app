@@ -90,7 +90,7 @@ export default function App() {
   const [taskListArray, setTaskListArray] = useState([]); 
 
   return (
-    <>
+    <div>
       <div style={{ backgroundColor: "lightblue", padding: "20px" }}>
         <Button onClick={() => setModalOpen(true)} theme="pink">
           Open the Modal
@@ -105,6 +105,6 @@ export default function App() {
       <div>
       <RenderTasks taskList={taskListArray}/>
       </div>
-    </>
+    </div>
   );
-}
+};
