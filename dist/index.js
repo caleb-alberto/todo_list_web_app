@@ -1,11 +1,11 @@
 "use strict";
 
-const React = require('react');
 require('ignore-styles');
 const {
   renderToPipeableStream
 } = require('react-dom/server');
 const App = require('./App.js');
+const React = require('react');
 const http = require('http');
 async function handler(req, res) {
   console.log('Received request:', req.url);
