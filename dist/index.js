@@ -1,23 +1,25 @@
 "use strict";
 
+var _jsxRuntime = require("react/jsx-runtime");
 require('ignore-styles');
 const {
   renderToPipeableStream
 } = require('react-dom/server');
-const App = require('./App.js');
+const App = require('./App.js').default;
 const React = require('react');
 const http = require('http');
 async function handler(req, res) {
   console.log('Received request:', req.url);
   console.log(App);
-  const stream = await renderToPipeableStream(/*#__PURE__*/React.createElement(App.default, null), {
-    bootstrapScripts: ['/client.js']
+  const {
+    pipe
+  } = renderToPipeableStream(/*#__PURE__*/(0, _jsxRuntime.jsx)(App, {}), {
+    bootstrapScripts: ['/client.js'],
+    onShellReady() {
+      res.setHeader('content-type', 'text/html');
+      pipe(res);
+    }
   });
-  console.log('Starting to stream HTML...');
-  res.writeHead(200, {
-    'content-Type': 'text/html'
-  });
-  stream.pipe(res);
 }
 const server = http.createServer(handler);
 server.listen(3000, () => {
