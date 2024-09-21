@@ -43,11 +43,10 @@ async function handler(req, res) {
           </head><body><div id="root">`);
         pipe(res);
      },
-      onAllReady() {
-        res.write(`</div><script src="/client.js" async></script></body></html>`);
+     onAllReady() {
+      res.write(`</div><script src="/client.js" async></script></body></html>`);
         res.end();
-      }
-  })}
+  }})}
 
 const server = http.createServer(handler);
 
