@@ -11,7 +11,7 @@ async function handler(req, res) {
   
   console.log('Received request:', req.url);
   
-  if (req.url.startsWith('/client')) {
+  if (req.url.startsWith('/_bundle')) {
     const filePath = path.join(__dirname, req.url);
     fs.readFile(filePath, (err, data) => {
       if (err) {
@@ -44,7 +44,7 @@ async function handler(req, res) {
         pipe(res);
      },
      onAllReady() {
-      res.write(`</div><script src="/client.js" async></script></body></html>`);
+      res.write(`</div><script src="/_bundle.js" async></script></body></html>`);
         res.end();
   }})}
 
