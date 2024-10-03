@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Modal from "./Modal";
 import styled from "styled-components";
-import newTask from "./Internal";
+import { newTask, sendToServer } from "./Internal";
 
 function Popup({ bool, setbool, taskList, setTaskList }) {
   const [nameInput, setNameInput] = useState("");
@@ -14,6 +14,7 @@ function Popup({ bool, setbool, taskList, setTaskList }) {
   function createTask() {
     let newObject = new newTask(nameInput, descInput, false);
     setTaskList([...taskList, newObject]);
+    sendToServer(newObject);
   }
 
   return (

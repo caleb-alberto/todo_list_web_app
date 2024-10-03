@@ -3,7 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.newTask = void 0;
+exports.sendToServer = sendToServer;
+var _nodeFetch = _interopRequireDefault(require("node-fetch"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 class newTask {
   constructor(name, desc, status) {
     this.name = name;
@@ -11,4 +14,14 @@ class newTask {
     this.status = status;
   }
 }
-var _default = exports.default = newTask;
+exports.newTask = newTask;
+async function sendToServer(taskObj) {
+  const data = JSON.stringify(taskObj);
+  await (0, _nodeFetch.default)('http://localhost:3000/api/submit', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
+  }).then(data => data.json()).then(console.log(data));
+}
