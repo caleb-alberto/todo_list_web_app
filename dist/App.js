@@ -7,7 +7,7 @@ exports.default = App;
 var _react = _interopRequireWildcard(require("react"));
 var _Modal = _interopRequireDefault(require("./Modal"));
 var _styledComponents = _interopRequireDefault(require("styled-components"));
-var _Internal = _interopRequireDefault(require("./Internal"));
+var _Internal = require("./Internal");
 var _jsxRuntime = require("react/jsx-runtime");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
@@ -23,8 +23,9 @@ function Popup(_ref) {
   const [descInput, setDescInput] = (0, _react.useState)("");
   if (!bool) return null;
   function createTask() {
-    let newObject = new _Internal.default(nameInput, descInput, false);
+    let newObject = new _Internal.newTask(nameInput, descInput, false);
     setTaskList([...taskList, newObject]);
+    (0, _Internal.sendToServer)(newObject);
   }
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Modal.default, {
     onClose: () => setbool(false),

@@ -1,4 +1,6 @@
-class newTask {
+import fetch from "node-fetch";
+
+export class newTask {
   constructor(name, desc, status) {
     this.name = name;
     this.desc = desc;
@@ -7,4 +9,16 @@ class newTask {
   }
 }
 
-export default newTask;
+export async function sendToServer(taskObj) {
+  const data = JSON.stringify(taskObj);
+
+  await fetch('http://localhost:3000/api/submit', {
+    method: 'post', 
+    headers: {
+      'Content-Type': 'application/json' 
+    },
+    body: data
+  })
+    .then(data => data.json())
+    .then(console.log(data))
+}
