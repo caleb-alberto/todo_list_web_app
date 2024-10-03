@@ -14,10 +14,9 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const {
-  json
-} = require('express');
-const uri = 'mongodb+srv://calebalberto:<mypasswordbitch>@cluster0.hbqyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+require('dotenv').config();
+const mypasswordbitch = process.env.DB_PASSWORD;
+const uri = `mongodb+srv://calebalberto:${mypasswordbitch}@cluster0.hbqyx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const taskModel = new mongoose.model('Task', new mongoose.Schema({
   name: String,
   desc: String,
