@@ -65,6 +65,12 @@ const Button = styled.button`
 function RenderTasks({ taskList }) {
   const [taskListComplete, setComplete] = useState(false);
   const taskListIncomplete = []
+  
+  if ((req.method == 'POST') && (req.url == '/api/submit')) {
+    fetch('http://localhost:3000/api/data')
+     .then(response => response.json())
+     .then(body => console.log(body))
+  }
 
   taskList.forEach((task) => {
     if (!task.status) {

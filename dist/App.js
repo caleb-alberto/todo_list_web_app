@@ -90,6 +90,9 @@ function RenderTasks(_ref2) {
   } = _ref2;
   const [taskListComplete, setComplete] = (0, _react.useState)(false);
   const taskListIncomplete = [];
+  if (req.method == 'POST' && req.url == '/api/submit') {
+    fetch('http://localhost:3000/api/data').then(response => response.json()).then(body => console.log(body));
+  }
   taskList.forEach(task => {
     if (!task.status) {
       taskListIncomplete.push(task);

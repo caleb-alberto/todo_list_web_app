@@ -69,11 +69,22 @@ async function handler(req, res) {
       body += chunk.toString();
     });
     
-    req.on('end', () => {
+    req.on('end', async () => {
       const data = JSON.parse(body);
       console.log(data)
       const newTask = new taskModel(data);
       newTask.save();
+      const taskData = await taskModel.find();
+
+      fetch('http://localhost:3000/api/data', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'appplication/json'
+        },
+        body: taskData
+      })
+      .then(console.log(taskData));
+
     })
   }
 }
