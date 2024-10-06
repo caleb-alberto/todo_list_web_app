@@ -86,13 +86,31 @@ const Button = _styledComponents.default.button`
 `;
 function RenderTasks(_ref2) {
   let {
-    taskList
+    taskList,
+    setTaskList
   } = _ref2;
   const [taskListComplete, setComplete] = (0, _react.useState)(false);
   const taskListIncomplete = [];
-  if (req.method == 'POST' && req.url == '/api/submit') {
-    fetch('http://localhost:3000/api/data').then(response => response.json()).then(body => console.log(body));
-  }
+  const fetchData = async () => {
+    try {
+      const taskData = await fetch('http://localhost:3000/api/data');
+      const jsonData = await taskData.json();
+      console.log(jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  (0, _react.useEffect)(() => {
+    const loadTasks = async () => {
+      const tasksFromDB = await fetchData();
+      const newTasks = tasksFromDB.map(task => {
+        return new _Internal.newTask(task.name, task.desc, task.status);
+      });
+      setTaskList(prevTaskList => [...prevTaskList, ...newTasks]);
+    };
+    loadTasks();
+  }, [setTaskList]);
   taskList.forEach(task => {
     if (!task.status) {
       taskListIncomplete.push(task);
@@ -102,6 +120,7 @@ function RenderTasks(_ref2) {
     children: taskListIncomplete.map((it, index) => /*#__PURE__*/(0, _jsxRuntime.jsxs)("li", {
       children: [it.name, /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
         type: "checkbox",
+        checked: false,
         onChange: () => {
           setComplete(!taskListComplete);
           it.status = true;
@@ -131,7 +150,8 @@ function App() {
       })]
     }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)(RenderTasks, {
-        taskList: taskListArray
+        taskList: taskListArray,
+        setTaskList: setTaskListArray
       })
     })]
   });

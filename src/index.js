@@ -14,7 +14,7 @@ const uri = `mongodb+srv://calebalberto:${mypasswordbitch}@cluster0.hbqyx.mongod
 const taskModel = new mongoose.model('Task', new mongoose.Schema({
   name: String,
   desc: String,
-  is: Boolean
+  status: Boolean
 }));
 
 const connectDB = async () => {
@@ -39,6 +39,28 @@ async function handler(req, res) {
     });
     return;
   }
+  
+  if (req.url == '/api/data'){
+    const taskData = await taskModel.find();
+    res.writeHead(200, {'Content-Type': 'application/json'})
+    res.end(JSON.stringify(taskData))
+    return;
+  }
+
+  if ((req.method == 'POST') && (req.url == '/api/submit')) {
+    let body = '';
+
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    
+    req.on('end', async () => {
+      const data = JSON.parse(body);
+      console.log(data)
+      const newTask = new taskModel(data);
+      newTask.save(); 
+    })
+  }
 
   const sheet = new ServerStyleSheet();
 
@@ -62,31 +84,6 @@ async function handler(req, res) {
       res.write(`</div><script src="/_bundle.js" async></script></body></html>`);
         res.end();
   }})
-  if ((req.method == 'POST') && (req.url == '/api/submit')) {
-    let body = '';
-
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-    
-    req.on('end', async () => {
-      const data = JSON.parse(body);
-      console.log(data)
-      const newTask = new taskModel(data);
-      newTask.save();
-      const taskData = await taskModel.find();
-
-      fetch('http://localhost:3000/api/data', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'appplication/json'
-        },
-        body: taskData
-      })
-      .then(console.log(taskData));
-
-    })
-  }
 }
 
 const server = http.createServer(handler);

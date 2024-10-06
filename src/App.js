@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "./Modal";
 import styled from "styled-components";
 import { newTask, sendToServer } from "./Internal";
@@ -62,15 +62,38 @@ const Button = styled.button`
   }
 `;
 
-function RenderTasks({ taskList }) {
+function RenderTasks({ taskList, setTaskList }) {
   const [taskListComplete, setComplete] = useState(false);
   const taskListIncomplete = []
-  
-  if ((req.method == 'POST') && (req.url == '/api/submit')) {
-    fetch('http://localhost:3000/api/data')
-     .then(response => response.json())
-     .then(body => console.log(body))
-  }
+
+  const fetchData = async () => {
+    try {
+      const taskData = await fetch('http://localhost:3000/api/data'); 
+      const jsonData = await taskData.json();
+      console.log(jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    const loadTasks = async () => {
+      const tasksFromDB = await fetchData();
+
+      const newTasks = tasksFromDB.map(task => {
+        return new newTask(
+          task.name,
+          task.desc,
+          task.status
+        );
+      });
+
+      setTaskList(prevTaskList => [...prevTaskList, ...newTasks]);
+    };
+
+    loadTasks(); 
+  }, [setTaskList]);
 
   taskList.forEach((task) => {
     if (!task.status) {
@@ -78,12 +101,11 @@ function RenderTasks({ taskList }) {
     } 
   });
 
-  
   return (
   <>
     {taskListIncomplete.map((it, index) => (
       <li key={index}>{it.name} 
-      <input type="checkbox" onChange={() => {
+      <input type="checkbox" checked={false} onChange={() => {
         setComplete(!taskListComplete);
         it.status = true;
       }}/>
@@ -111,7 +133,7 @@ export default function App() {
         />
       </div>
       <div>
-      <RenderTasks taskList={taskListArray}/>
+      <RenderTasks taskList={taskListArray} setTaskList={setTaskListArray}/>
       </div>
     </div>
   );
