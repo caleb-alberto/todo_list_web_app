@@ -15,9 +15,9 @@ class newTask {
   }
 }
 exports.newTask = newTask;
-async function sendToServer(taskObj) {
+async function sendToServer(taskObj, endpoint) {
   const data = JSON.stringify(taskObj);
-  await (0, _nodeFetch.default)('http://localhost:3000/api/submit', {
+  await (0, _nodeFetch.default)(`http://localhost:3000/api/${endpoint}`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'

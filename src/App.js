@@ -14,7 +14,7 @@ function Popup({ bool, setbool, taskList, setTaskList }) {
   function createTask() {
     let newObject = new newTask(nameInput, descInput, false);
     setTaskList([...taskList, newObject]);
-    sendToServer(newObject);
+    sendToServer(newObject, 'submit');
   }
 
   return (
@@ -108,6 +108,7 @@ function RenderTasks({ taskList, setTaskList }) {
       <input type="checkbox" checked={false} onChange={() => {
         setComplete(!taskListComplete);
         it.status = true;
+        sendToServer(it, 'delete');
       }}/>
       <br /> {it.desc}</li>
     ))}

@@ -25,7 +25,7 @@ function Popup(_ref) {
   function createTask() {
     let newObject = new _Internal.newTask(nameInput, descInput, false);
     setTaskList([...taskList, newObject]);
-    (0, _Internal.sendToServer)(newObject);
+    (0, _Internal.sendToServer)(newObject, 'submit');
   }
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Modal.default, {
     onClose: () => setbool(false),
@@ -124,6 +124,7 @@ function RenderTasks(_ref2) {
         onChange: () => {
           setComplete(!taskListComplete);
           it.status = true;
+          (0, _Internal.sendToServer)(it, 'delete');
         }
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)("br", {}), " ", it.desc]
     }, index))

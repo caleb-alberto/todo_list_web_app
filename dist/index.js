@@ -65,6 +65,19 @@ async function handler(req, res) {
       newTask.save();
     });
   }
+  if (req.url == '/api/delete') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', async () => {
+      const data = JSON.parse(body);
+      console.log(data);
+      await taskModel.deleteOne({
+        name: data.name
+      });
+    });
+  }
   const sheet = new ServerStyleSheet();
   const {
     pipe
